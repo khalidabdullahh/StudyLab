@@ -4,12 +4,12 @@ Interactive simulations for Physics, Chemistry, Math and Biology, so students ca
 ## Run locally
 Open `index.html` in a browser. No build step needed.
 
-## Current labs
-- Physics: Projectile, Ohm's law circuit, Waves & superposition
-- Chemistry: Collision theory beaker, Titration with pH curve, 3D molecule shapes
-- Math: Sine grapher, Derivative as slope
-- Biology: Punnett square, Cell organelles, DNA replication, Mitosis
-- Bangla / English toggle
+## Sections & labs
+- **Physics:** Projectile, Ohm's law circuit, Waves, Refraction
+- **Chemistry:** Collision theory beaker, Titration, 3D molecule shapes
+- **Math:** Sine grapher, Derivative as slope, Unit circle
+- **Biology:** Punnett square, Cell organelles, DNA replication, Mitosis
+- Bangla / English toggle, shareable links like `#Titration`
 
 ## Roadmap
 More simulations per subject, Bangla/English toggle, quizzes, progress tracking, AI tutor, PWA offline mode.

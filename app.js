@@ -144,13 +144,42 @@ Mitosis:{title:'Mitosis: Cell Division',controls:[['s','Stage (0-4)',0,4,0,1]],
    if(s>=2){c.strokeStyle='#94a3b8';c.lineWidth=1;[110,530].forEach(px=>ys.forEach(y=>{c.beginPath();c.moveTo(px,175);c.lineTo(s==2?320:px<300?250:390,y);c.stroke()}))}
    if(s==2)ys.forEach(y=>X(320,y));
    if(s==3)ys.forEach(y=>{L(255,y);L(385,y)})}
-  const f=this.info[s],i=bn?2:0;c.fillStyle=fg;c.font='bold 16px system-ui';c.fillText(f[i]+': '+f[i+1],20,345)}}
+  const f=this.info[s],i=bn?2:0;c.fillStyle=fg;c.font='bold 16px system-ui';c.fillText(f[i]+': '+f[i+1],20,345)}},
+Refraction:{title:'Refraction (Snell’s Law)',controls:[['n1','Medium 1 index n₁',1,2,1,.05],['n2','Medium 2 index n₂',1,2.5,1.5,.05],['a','Incident angle (°)',5,85,40,1]],
+ explain:'Light bends toward the normal when entering a denser medium: n₁ sinθ₁ = n₂ sinθ₂. Going from dense to less dense at a large angle gives total internal reflection.',
+ quiz:['Entering glass from air, does light bend toward or away from the normal?','Toward the normal'],
+ draw(c,v){const fg=getComputedStyle(document.body).color,cx=W/2,cy=H/2,r=Math.PI/180,t1=v.a*r,s2=v.n1*Math.sin(t1)/v.n2,L=190;
+  c.fillStyle=`rgba(56,189,248,${.07*v.n1})`;c.fillRect(0,0,W,cy);c.fillStyle=`rgba(56,189,248,${.07*v.n2})`;c.fillRect(0,cy,W,cy);
+  c.strokeStyle=fg;c.lineWidth=2;c.beginPath();c.moveTo(0,cy);c.lineTo(W,cy);c.stroke();
+  c.setLineDash([6,6]);c.lineWidth=1;c.beginPath();c.moveTo(cx,20);c.lineTo(cx,H-20);c.stroke();c.setLineDash([]);
+  const ray=(x,y,col)=>{c.strokeStyle=col;c.lineWidth=4;c.beginPath();c.moveTo(cx,cy);c.lineTo(x,y);c.stroke()};
+  c.strokeStyle='#f59e0b';c.lineWidth=4;c.beginPath();c.moveTo(cx-Math.sin(t1)*L,cy-Math.cos(t1)*L);c.lineTo(cx,cy);c.stroke();
+  let msg;if(s2<=1){const t2=Math.asin(s2);ray(cx+Math.sin(t2)*L,cy+Math.cos(t2)*L,'#ef4444');msg='θ₁ = '+v.a+'°   θ₂ = '+(t2/r).toFixed(1)+'°'}
+  else{ray(cx+Math.sin(t1)*L,cy-Math.cos(t1)*L,'#ef4444');msg='Total internal reflection!'}
+  c.fillStyle=fg;c.fillText(msg,20,24);c.fillText('n₁ sinθ₁ = n₂ sinθ₂',20,H-12)}},
+Unit:{title:'Trigonometry: Unit Circle',controls:[['t','Angle θ (°)',0,360,45,1]],
+ explain:'On the unit circle, the point at angle θ has x = cosθ (green) and y = sinθ (red). The graph on the right traces sinθ as θ grows.',
+ quiz:['What is sinθ when θ = 90°?','1'],
+ draw(c,v){const fg=getComputedStyle(document.body).color,cx=190,cy=180,R=120,t=v.t*Math.PI/180,px=cx+R*Math.cos(t),py=cy-R*Math.sin(t);
+  c.strokeStyle='#888';c.lineWidth=1;c.beginPath();c.moveTo(cx-R-15,cy);c.lineTo(cx+R+15,cy);c.moveTo(cx,cy-R-15);c.lineTo(cx,cy+R+15);c.stroke();
+  c.strokeStyle='#4f46e5';c.lineWidth=3;c.beginPath();c.arc(cx,cy,R,0,7);c.stroke();
+  const ln=(a,b,x,y,col,w)=>{c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.moveTo(a,b);c.lineTo(x,y);c.stroke()};
+  ln(cx,cy,px,py,fg,2);ln(cx,cy,px,cy,'#16a34a',4);ln(px,cy,px,py,'#ef4444',4);
+  c.strokeStyle='#f59e0b';c.lineWidth=3;c.beginPath();c.arc(cx,cy,25,0,-t,true);c.stroke();
+  c.fillStyle='#4f46e5';c.beginPath();c.arc(px,py,7,0,7);c.fill();
+  const gx=400,gw=220;ln(gx,cy,gx+gw,cy,'#888',1);
+  c.strokeStyle='#ef4444';c.lineWidth=3;c.beginPath();for(let a=0;a<=360;a+=3){const X=gx+a/360*gw,Y=cy-90*Math.sin(a*Math.PI/180);a?c.lineTo(X,Y):c.moveTo(X,Y)}c.stroke();
+  const mx=gx+v.t/360*gw,my=cy-90*Math.sin(t);c.setLineDash([4,4]);ln(px,py,mx,my,'#888',1);c.setLineDash([]);
+  c.fillStyle='#ef4444';c.beginPath();c.arc(mx,my,6,0,7);c.fill();
+  c.fillStyle=fg;c.fillText('θ = '+v.t+'°   cosθ = '+Math.cos(t).toFixed(2)+'   sinθ = '+Math.sin(t).toFixed(2),20,24)}}
 };
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
 let cur='Physics',vals={};
 function render(){const L=labs[cur];ctx.clearRect(0,0,W,H);ctx.font='14px system-ui';ctx.fillStyle=getComputedStyle(document.body).color;L.draw(ctx,vals)}
 let bn=false;
 const TN={Physics:['🎯 Projectile','🎯 প্রক্ষেপণ'],Circuit:['⚡ Circuit','⚡ সার্কিট'],Waves:['🌊 Waves','🌊 তরঙ্গ'],Chemistry:['💥 Collision','💥 সংঘর্ষ'],Titration:['⚗️ Titration','⚗️ টাইট্রেশন'],Molecule:['🧪 Molecule 3D','🧪 অণু 3D'],Math:['📈 Sine','📈 সাইন'],Calculus:['∫ Calculus','∫ ক্যালকুলাস'],Biology:['🧬 Punnett','🧬 পানেট'],Cell:['🔬 Cell','🔬 কোষ'],DNA:['🧬 DNA','🧬 ডিএনএ'],Mitosis:['🔬 Mitosis','🔬 মাইটোসিস']};
+TN.Refraction=['🔦 Refraction','🔦 প্রতিসরণ'];TN.Unit=['⭕ Unit circle','⭕ একক বৃত্ত'];
+const SUBJ={Physics:{i:'⚛️',n:['Physics','পদার্থ'],c:'#4f46e5',l:['Physics','Circuit','Waves','Refraction']},Chemistry:{i:'⚗️',n:['Chemistry','রসায়ন'],c:'#e11d48',l:['Chemistry','Titration','Molecule']},Math:{i:'📐',n:['Math','গণিত'],c:'#059669',l:['Math','Calculus','Unit']},Biology:{i:'🧬',n:['Biology','জীববিজ্ঞান'],c:'#d97706',l:['Biology','Cell','DNA','Mitosis']}};
 const BN={
 Physics:{t:'প্রক্ষেপক গতি',e:'অনুভূমিক বেগ ধ্রুবক থাকে আর অভিকর্ষ উল্লম্ব বেগ কমায়। পাল্লা R = v²·sin(2θ)/g, তাই ৪৫° কোণে পাল্লা সবচেয়ে বেশি।',q:['সর্বোচ্চ পাল্লার জন্য কোণ কত?','৪৫°'],c:['কোণ (°)','গতি (m/s)','অভিকর্ষ (m/s²)']},
 Circuit:{t:'ওহমের সূত্র: সার্কিট',e:'ভোল্টেজ বাড়ালে কারেন্ট বাড়ে, রেজিস্ট্যান্স বাড়ালে কারেন্ট কমে। I = V/R। কারেন্ট বেশি হলে বাল্ব উজ্জ্বল জ্বলে আর নীল ইলেকট্রন দ্রুত চলে।',q:['V = 6 V, R = 3 Ω হলে I কত?','২ A'],c:['ভোল্টেজ (V)','রেজিস্ট্যান্স (Ω)']},
@@ -163,15 +192,18 @@ Waves:{t:'তরঙ্গ ও উপরিপাতন',e:'দুটি তর�
 Calculus:{t:'অন্তরীকরণ: স্পর্শকের ঢাল',e:'লাল ছেদক রেখা h দূরত্বের দুটি বিন্দু জোড়ে। h ছোট করলে এর ঢাল সবুজ স্পর্শকের ঢালের কাছে যায়, এটাই অন্তরজ f′(x)।',q:['অন্তরজ কী মাপে?','স্পর্শকের ঢাল বা পরিবর্তনের হার'],c:['বিন্দু x','ধাপ h']},
 Molecule:{t:'অণুর আকৃতি (3D)',e:'ইলেকট্রন জোড়ের বিকর্ষণে অণু নির্দিষ্ট ত্রিমাত্রিক আকার নেয়: পানি বাঁকা, মিথেন চতুস্তলকীয়, CO₂ রৈখিক।',q:['মিথেনের আকৃতি কী?','চতুস্তলকীয়'],c:['অণু (০ পানি, ১ মিথেন, ২ CO₂)','ঘূর্ণন গতি']},
 DNA:{t:'ডিএনএ প্রতিলিপন',e:'রেপ্লিকেশন ফর্কে ডিএনএ-র দুই সুতো আলাদা হয় আর প্রতিটি পুরনো সুতো নতুন সঙ্গী তৈরি করে। ফলে দুটি একই ডিএনএ পাওয়া যায়। স্লাইডার টেনে ফর্ক সরাও।',q:['প্রতিলিপনকে অর্ধ-সংরক্ষণশীল বলা হয় কেন?','প্রতিটি নতুন ডিএনএ-তে একটি পুরনো সুতো থাকে'],c:['প্রতিলিপন অগ্রগতি (%)']},
-Mitosis:{t:'মাইটোসিস: কোষ বিভাজন',e:'স্লাইডার টেনে ধাপগুলো দেখো: ইন্টারফেজে ডিএনএ কপি হয়, ক্রোমোজোম গুটিয়ে যায়, মাঝখানে সারি বাঁধে, আলাদা হয়, তারপর কোষ দুই ভাগ হয়।',q:['কোন ধাপে ক্রোমোজোম মাঝখানে সারি বাঁধে?','মেটাফেজ'],c:['ধাপ (০-৪)']}};
+Mitosis:{t:'মাইটোসিস: কোষ বিভাজন',e:'স্লাইডার টেনে ধাপগুলো দেখো: ইন্টারফেজে ডিএনএ কপি হয়, ক্রোমোজোম গুটিয়ে যায়, মাঝখানে সারি বাঁধে, আলাদা হয়, তারপর কোষ দুই ভাগ হয়।',q:['কোন ধাপে ক্রোমোজোম মাঝখানে সারি বাঁধে?','মেটাফেজ'],c:['ধাপ (০-৪)']},
+Refraction:{t:'আলোর প্রতিসরণ (স্নেলের সূত্র)',e:'আলো ঘন মাধ্যমে ঢুকলে নর্মালের দিকে বেঁকে যায়: n₁ sinθ₁ = n₂ sinθ₂। ঘন থেকে হালকা মাধ্যমে বড় কোণে আপতিত হলে পূর্ণ অভ্যন্তরীণ প্রতিফলন হয়।',q:['বায়ু থেকে কাচে গেলে আলো কোন দিকে বাঁকে?','নর্মালের দিকে'],c:['মাধ্যম ১ এর n₁','মাধ্যম ২ এর n₂','আপতন কোণ (°)']},
+Unit:{t:'ত্রিকোণমিতি: একক বৃত্ত',e:'একক বৃত্তে θ কোণের বিন্দুর x = cosθ (সবুজ) আর y = sinθ (লাল)। ডানের গ্রাফে θ বাড়ার সাথে sinθ এর মান দেখো।',q:['θ = 90° হলে sinθ কত?','১'],c:['কোণ θ (°)']}};
 function load(n,keep){cur=n;parts=null;const L=labs[n],b=bn&&BN[n],old=keep?{...vals}:{};vals={};
  title.textContent=b?b.t:L.title;explain.textContent=b?b.e:L.explain;quiz.textContent=(b?b.q:L.quiz)[0];ans.textContent='';
  controls.innerHTML='';L.controls.forEach(([id,lb,mn,mx,val,st],i)=>{val=old[id]??val;vals[id]=val;
   const d=document.createElement('div');d.className='ctl';d.innerHTML=`<label>${b?b.c[i]:lb}</label><input type=range min=${mn} max=${mx} step=${st} value=${val}><b>${val}</b>`;
   d.querySelector('input').oninput=e=>{vals[id]=+e.target.value;d.querySelector('b').textContent=e.target.value;render()};controls.append(d)});
- tabs.innerHTML='';Object.keys(TN).forEach(k=>{const t=document.createElement('button');t.textContent=TN[k][+bn];t.className=k==n?'on':'';t.onclick=()=>load(k);tabs.append(t)});
+ const sk=Object.keys(SUBJ).find(k=>SUBJ[k].l.includes(n));subj.innerHTML='';Object.keys(SUBJ).forEach(k=>{const S=SUBJ[k],t=document.createElement('button');t.innerHTML=S.i+'<br>'+S.n[+bn];t.className=k==sk?'on':'';t.style.setProperty('--sc',S.c);t.onclick=()=>load(S.l[0]);subj.append(t)});
+ tabs.innerHTML='';SUBJ[sk].l.forEach(k=>{const t=document.createElement('button');t.textContent=TN[k][+bn];t.className=k==n?'on':'';t.onclick=()=>load(k);tabs.append(t)});try{history.replaceState(null,'','#'+n)}catch(e){}
  reveal.textContent=bn?'উত্তর দেখো':'Show answer';wh.textContent=bn?'কেন এমন হয়?':'Why does this happen?';mqh.textContent=bn?'মিনি কুইজ':'Mini quiz';lang.textContent=bn?'English':'বাংলা';render()}
 reveal.onclick=()=>{const b=bn&&BN[cur];ans.textContent=(b?b.q:labs[cur].quiz)[1]};
 lang.onclick=()=>{bn=!bn;load(cur,true)};
 theme.onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme=='dark'?'':'dark';render()};
-load('Physics');(function loop(){tm+=1/60;render();requestAnimationFrame(loop)})();
+load(labs[location.hash.slice(1)]?location.hash.slice(1):'Physics');(function loop(){tm+=1/60;render();requestAnimationFrame(loop)})();

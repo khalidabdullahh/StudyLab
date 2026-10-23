@@ -14,3 +14,7 @@ canvas{width:100%;height:auto;background:var(--card);border-radius:14px}
 .ctl label{min-width:130px;font-size:.9rem}
 .ctl input{flex:1;accent-color:var(--ac)}
 footer{text-align:center;padding:20px;font-size:.8rem;opacity:.7}
+#subj{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 10px;max-width:720px;margin:auto}
+#subj button{border:0;border-radius:12px;padding:10px 2px;background:var(--card);color:var(--fg);font-size:.8rem;cursor:pointer;border-bottom:4px solid transparent;line-height:1.5}
+#subj button.on{border-bottom-color:var(--sc);font-weight:700}
+#tabs{max-width:720px;margin:auto;padding-bottom:4px}
