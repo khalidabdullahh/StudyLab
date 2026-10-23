@@ -5,10 +5,11 @@ Interactive simulations for Physics, Chemistry, Math and Biology, so students ca
 Open `index.html` in a browser. No build step needed.
 
 ## Current labs
-- Physics: Animated projectile motion
-- Chemistry: Collision theory (animated particles in a beaker)
+- Physics: Animated projectile, Ohm's law circuit
+- Chemistry: Collision theory beaker, Acid-base titration with pH curve
 - Math: Sine function grapher
-- Biology: Punnett square
+- Biology: Punnett square, Animal cell organelles
+- Bangla / English toggle
 
 ## Roadmap
 More simulations per subject, Bangla/English toggle, quizzes, progress tracking, AI tutor, PWA offline mode.
