@@ -5,8 +5,8 @@ Interactive simulations for Physics, Chemistry, Math and Biology, so students ca
 Open `index.html` in a browser. No build step needed.
 
 ## Current labs
-- Physics: Projectile motion
-- Chemistry: Reaction rate vs temperature
+- Physics: Animated projectile motion
+- Chemistry: Collision theory (animated particles in a beaker)
 - Math: Sine function grapher
 - Biology: Punnett square
 
