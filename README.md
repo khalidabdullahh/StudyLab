@@ -5,10 +5,10 @@ Interactive simulations for Physics, Chemistry, Math and Biology, so students ca
 Open `index.html` in a browser. No build step needed.
 
 ## Current labs
-- Physics: Animated projectile, Ohm's law circuit
-- Chemistry: Collision theory beaker, Acid-base titration with pH curve
-- Math: Sine function grapher
-- Biology: Punnett square, Animal cell organelles
+- Physics: Projectile, Ohm's law circuit, Waves & superposition
+- Chemistry: Collision theory beaker, Titration with pH curve, 3D molecule shapes
+- Math: Sine grapher, Derivative as slope
+- Biology: Punnett square, Cell organelles, DNA replication, Mitosis
 - Bangla / English toggle
 
 ## Roadmap
